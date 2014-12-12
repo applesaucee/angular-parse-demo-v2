@@ -11,6 +11,7 @@
 //sending a PUT to this URL + '/' + task.objectId will update an existing task
 //sending a DELETE to this URL + '/' + task.objectId will delete an existing task
 var tasksUrl = 'https://api.parse.com/1/classes/tasks';
+Parse.initialize("P2PkYylhDL67qd3cMvrvvAGvTPTokUg1ygJ8espm", "IQINFsZcIKEskKxdUfnc1hpKpvr78cLkNvhYfaPU");
 
 angular.module('ToDoApp', [])
     .config(function($httpProvider) {
@@ -105,6 +106,36 @@ angular.module('ToDoApp', [])
                     $scope.updating = false;
                 });
         };
+    
+        $scope.saveChanges = function(task) {
+            $scope.saving = true;
+            console.log(task);
+            $http.put('https://api.parse.com/1/classes/tasks/' + task.objectId, task)
+                .success(function(responseData) {
+                    //success! =
+                })
+                .error(function(err) {
+                    console.log(err);
+                    //notify the user in some way
+                })
+                .finally(function() {
+                    $scope.saving = false;
+                });
+        }
+    
+//        //save testing
+//        $scope.saveChanges = function(task) {
+//            var query = new Parse.Query(tasks);
+//            query.get(task.objectId, {
+//                success: function(task) {
+//                    console.log(task.objectId);
+//                    //object retrieved successfully
+//                },
+//                error: function (object, error) {
+//                    //object was not retrieved successfully
+//                }
+//            });
+//        };
 
         
     });
